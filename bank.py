@@ -20,6 +20,7 @@ class Account:
         self.balance=0
         self.borrow=0
         self.statement=[]
+        self.loan=0
     def showbalance(self):
         return f"Hello, {self.name},your balance is {self.balance}"
 
@@ -55,7 +56,7 @@ class Account:
                return self.showbalance()
     def add_laon(self,amount):
         return f"my amount is {amount}"
-    def replayloan(self,amount):
+    def repayloan(self,amount):
         return f"my amount is"
        
     def show_statement(self):
@@ -65,6 +66,63 @@ class Account:
             time=transaction["time"]
             date=time.strftime("%d/%m/%y")
             print(f"{date} : {narration} {amount}")
+
+    def borrow(self,amount):
+        if amount < 0:
+            return "no amount given"
+        elif self.loan > 0:
+            return "you have an excisting loan"
+        elif amount <0.1* self.balance:
+            return "you did not qualify"
+        
+        else: 
+            loan=amount*1.05
+            self.loan=loan
+            self.balance += amount
+            now=datetime.now()
+            borrow_transaction={
+                "amount":amount,
+                "time":now,
+                "narration":"you borrowed"
+             }
+            self.statement.append(borrow_transaction)
+            return self.showbalance()
+        
+
+    def repay (self,amount):
+        if amount <0:
+            return f"you can not take another loan{self.loan}"
+        elif amount < self.loan:
+            self.loan-=amount
+            return f"you can take loan {self.loan}"
+        else:
+            diff=amount-self.loan
+            self.loan=0
+            self.deposit(diff)
+            now=datetime.now()
+            repay_transaction={
+                 "amount":amount,
+                 "time":now,
+                 "narration":"you withdrew"
+             }
+            self.statement.append(repay_transaction)
+            return self.showbalance()
+    def show_statement(self):
+        for transaction in self.statement:
+            amount=transaction["amount"]
+            narration=transaction["narration"]
+            time=transaction["time"]
+            date=time.strftime("%d/%m/%y")
+            print(f"{date} : {narration} {amount}")      
+
+            
+
+        
+
+
+
+            
+
             
 
 
