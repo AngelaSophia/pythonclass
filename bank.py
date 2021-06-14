@@ -25,6 +25,10 @@ class Account:
         return f"Hello, {self.name},your balance is {self.balance}"
 
     def deposit(self,amount):
+        try:
+            10 + amount
+        except TypeError:
+                return f"The amount must be in figures"
         if amount<0:
 
             return f"cannot add any amount"
@@ -42,6 +46,10 @@ class Account:
     #          return self.statement
              
     def withdraw(self,amount):
+        try:
+            50 - amount
+        except TypeError:
+                return f"the amount must be in figures"
         if amount>self.balance:
             return f"your balance is {self.balance} you cannot withdraw {amount}"
         else:
@@ -68,6 +76,10 @@ class Account:
             print(f"{date} : {narration} {amount}")
 
     def borrow(self,amount):
+        try:
+            40 + amount
+        except TypeError:
+            return f"the amount must be in figures"
         if amount < 0:
             return "no amount given"
         elif self.loan > 0:
@@ -90,6 +102,10 @@ class Account:
         
 
     def repay (self,amount):
+        try:
+            10 + amount
+        except TypeError:
+                return f"the amount must be in figures"
         if amount <0:
             return f"you can not take another loan{self.loan}"
         elif amount < self.loan:
@@ -115,7 +131,42 @@ class Account:
             date=time.strftime("%d/%m/%y")
             print(f"{date} : {narration} {amount}")      
 
+    def transfer(self,account,amount):
+        try:
+            10 + amount
+        except TypeError:
+            return f"the a mount must be in figures"
+        # if  amount >0:
+        #     return "the money should be transfered"
+        fee = amount*0.05
+        total=amount + fee
+        if total> self.balance:
+            return f"your balance is {self.balance} and you need at least {total} for this transfer"
+        else:
+            self.balance -= total
+            account.deposit(amount)
+            return f"you have transfered the money to another account"
+
+class Mobile_Money_Account(Account):
+    def __init__(self,name,phonenumber,service_provider):
+        Account. __init__(self,name,phonenumber)
+        self.service_provider=service_provider
+    def buy_airtime(self,amount):
+        try:
+            10 + amount
+        except TypeError:
+            return f"you have bought airtime"
+        if amount >0:
+            return f" {self.name}your amount {amount} is too low"
+        elif self.balance < amount:
+            return f"your {self.balance} is not surficient to buy airtime"
+        else:
+                self.balance-=amount
+                return f"you have bought airtime of {amount},your new balance is {self.balance}"
+
+           
             
+# Syntax Error and Excemptions this is the wrong syntax //use of try catch method
 
         
 
